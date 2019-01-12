@@ -26,7 +26,7 @@ import (
 //              Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
 func BenchmarkLengthOfLonestSubstring0(b *testing.B) {
-	gen := func(count int) string {
+	genUniq := func(count int) string {
 		result := make([]rune, count)
 		for i := 0; i < count; i++ {
 			result[i] = rune(i)
@@ -45,17 +45,53 @@ func BenchmarkLengthOfLonestSubstring0(b *testing.B) {
 		}
 	})
 
-	s10 := gen(10)
-	b.Run("length 10", func(b *testing.B) {
+	s10 := genUniq(10)
+	b.Run("uniq length 10", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			lengthOfLongestSubstring(s10)
 		}
 	})
 
-	s100 := gen(100)
-	b.Run("length 100", func(b *testing.B) {
+	s100 := genUniq(100)
+	b.Run("uniq length 100", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			lengthOfLongestSubstring(s100)
+		}
+	})
+
+	s1000 := genUniq(100)
+	b.Run("uniq length 1000", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			lengthOfLongestSubstring(s1000)
+		}
+	})
+
+	genRepeating := func(count int) string {
+		result := make([]rune, count)
+		for i := 0; i < count; i++ {
+			result[i] = 'a'
+		}
+		return string(result)
+	}
+
+	s10 = genRepeating(10)
+	b.Run("repeating length 10", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			lengthOfLongestSubstring(s10)
+		}
+	})
+
+	s100 = genRepeating(100)
+	b.Run("repeating length 100", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			lengthOfLongestSubstring(s100)
+		}
+	})
+
+	s1000 = genRepeating(100)
+	b.Run("repeating length 1000", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			lengthOfLongestSubstring(s1000)
 		}
 	})
 }

@@ -7,8 +7,7 @@ import (
 var _ = fmt.Printf
 
 func lengthOfLongestSubstring(s string) int {
-	var arr []rune
-
+	arr := make([]rune, 0, len(s))
 	max := 0
 
 	indexOf := func(t rune) (int, bool) {
