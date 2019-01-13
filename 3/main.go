@@ -7,32 +7,35 @@ import (
 var _ = fmt.Printf
 
 func lengthOfLongestSubstring(s string) int {
-	arr := make([]rune, 0, len(s))
+	runes := []rune(s)
+	length := len(runes)
+
+	if length == 0 {
+		return 0
+	}
+
+	if length == 1 {
+		return 1
+	}
+
 	max := 0
+	start := -1
+	m := make(map[rune]int)
 
-	indexOf := func(t rune) (int, bool) {
-		for i, r := range arr {
-			if r == t {
-				return i, true
+	for current, r := range runes {
+		old, ok := m[r]
+		m[r] = current
+
+		if ok && old > start {
+			if delta := current - start - 1; delta > max {
+				max = delta
+			}
+			start = old
+		} else if current == length-1 {
+			if delta := length - start - 1; delta > max {
+				max = delta
 			}
 		}
-		return -1, false
-	}
-
-	for _, r := range s {
-		if i, ok := indexOf(r); ok {
-			if m := len(arr); m > max {
-				max = m
-			}
-
-			arr = arr[i+1:]
-		}
-
-		arr = append(arr, r)
-	}
-
-	if m := len(arr); m > max {
-		max = m
 	}
 
 	return max

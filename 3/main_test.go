@@ -97,23 +97,20 @@ func BenchmarkLengthOfLonestSubstring0(b *testing.B) {
 }
 
 func TestLengthOfLongestSubstring(t *testing.T) {
-	reverse := func(s string) string {
-		r := []rune(s)
-		for i, j := 0, len(r)-1; i < j; i, j = i+1, j-1 {
-			r[i], r[j] = r[j], r[i]
-		}
-		return string(r)
-	}
-
 	assertExample := func(s string, l int) {
 		assert.Equal(t, l, lengthOfLongestSubstring(s))
 	}
 
 	assertExample(" ", 1)
 	assertExample("abcabcbb", 3)
+	assertExample("ab", 2)
 	assertExample("bbbbb", 1)
 	assertExample("pwwkew", 3)
+	assertExample("cdd", 2)
+	assertExample("cddd", 2)
+	assertExample("dcddd", 2)
 	assertExample("\U0010260e𫩼罠\U0007d6f2\U000ff9a8\U000a8c63\U0009dba7\U000dabfd\U00102f3a\U0003e6e3\U0002fde9\U000a8e83\U000e4ea7\U000a2c7b\U000c846d죋\U00092638\U0007d183\U000dbdbd\U000f7b45\U0006172f\U0010f5bc\U000f83e7🀤\U000e17b5�\U000f4368\U00014026�\U000d77f3銀ᓶ乯\U000bb5a0\U0008b550\U000a7906𧢞\U0009772a\U000a5cf0\U0003bd6c\U000aa4ba\U000f143d\U000a4ab4\U00056db3\U000fd8a9", 28)
+
 	assertExample(reverse("\U0010260e𫩼罠\U0007d6f2\U000ff9a8\U000a8c63\U0009dba7\U000dabfd\U00102f3a\U0003e6e3\U0002fde9\U000a8e83\U000e4ea7\U000a2c7b\U000c846d죋\U00092638\U0007d183\U000dbdbd\U000f7b45\U0006172f\U0010f5bc\U000f83e7🀤\U000e17b5�\U000f4368\U00014026�\U000d77f3銀ᓶ乯\U000bb5a0\U0008b550\U000a7906𧢞\U0009772a\U000a5cf0\U0003bd6c\U000aa4ba\U000f143d\U000a4ab4\U00056db3\U000fd8a9"), 28)
 
 	f := func(s string) bool {
@@ -131,4 +128,12 @@ func TestLengthOfLongestSubstring(t *testing.T) {
 	if err := quick.Check(f, nil); err != nil {
 		t.Error(err)
 	}
+}
+
+func reverse(s string) string {
+	r := []rune(s)
+	for i, j := 0, len(r)-1; i < j; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
+	}
+	return string(r)
 }
